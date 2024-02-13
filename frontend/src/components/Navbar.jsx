@@ -14,21 +14,23 @@ const Navbar = () => {
 
       <div className="flex gap-10 font-normal capitalize">
         <Link
+          title="Login"
           to={"/login"}
           className="flex justify-between items-center cursor-pointer"
         >
           {" "}
           <span className="text-3xl">
-            <IoLogIn className="text-3xl"/>
+            <IoLogIn className="text-3xl" />
           </span>
         </Link>
         <Link
+          title="Register"
           to={"/register"}
           className="flex justify-between items-center cursor-pointer cursor-pointer"
         >
           {" "}
           <span className="text-3xl">
-            <IoMdPersonAdd className="text-3xl"/>
+            <IoMdPersonAdd className="text-3xl" />
           </span>
         </Link>
       </div>

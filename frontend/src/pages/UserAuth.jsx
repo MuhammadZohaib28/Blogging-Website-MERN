@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import InputBox from "../components/InputBox";
 import { FcGoogle } from "react-icons/fc";
-
 import { Link, Navigate } from "react-router-dom";
 import PageAnimation from "../components/PageAnimation";
 import { Toaster, toast } from "react-hot-toast";
@@ -9,6 +8,7 @@ import { MdEmail } from "react-icons/md";
 import { IoMdPerson } from "react-icons/io";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { loginUser, registerUser } from "../controllers/usersControllers";
+import { UserContext } from "../context/UserContext";
 
 const UserAuth = ({ type }) => {
   // Form Data state
@@ -18,8 +18,17 @@ const UserAuth = ({ type }) => {
     password: "",
   });
 
+  // Use User Context
+  const { user } = useContext(UserContext);
+
+  console.log(user);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
     let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
@@ -57,7 +66,7 @@ const UserAuth = ({ type }) => {
 
     if (type === "Sign-In") {
       try {
-        await loginUser(email, password);
+        await loginUser(formData.email, formData.password);
       } catch (error) {
         toast.error(error.message);
       }
