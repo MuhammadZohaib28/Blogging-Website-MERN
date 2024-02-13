@@ -6,6 +6,7 @@ import {
   getPosts,
   updatePost,
 } from "../controllers/postsController.js";
+import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const router = express.Router();
 router.get("/", getPosts);
 
 // add new posts route
-router.post("/", addPost);
+router.post("/", auth, addPost);
 
 // delete new posts route
 router.delete("/:id", deletePost);

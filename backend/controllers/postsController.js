@@ -1,6 +1,7 @@
 /********************************************************* GET ALL POST *********************************************************/
 import mongoose from "mongoose";
 import Post from "../models/PostModels.js";
+import User from "../models/UserModel.js";
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
@@ -20,8 +21,11 @@ const addPost = async (req, res) => {
     return res.status(400).json({ error: "Please fill all the fields" });
   }
 
+  // Grab the autheticated User from requested body
+  const user = await User.findById(req.user._id);
+
   try {
-    const post = await Post.create({ title, body });
+    const post = await Post.create({ title, body, user: user._id });
     res.status(200).json({ success: "POST created", post });
   } catch (error) {
     res.status(500).json({ error: error.message });
