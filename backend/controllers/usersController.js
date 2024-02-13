@@ -11,10 +11,10 @@ const createToken = (_id) => {
 /********************************************************* REGISTER USERS *********************************************************/
 const registerUser = async (req, res) => {
   // Grab the data from the request body
-  const { email, password } = req.body;
+  const { email, password, fullname } = req.body;
 
   //   Check if the fields are not empty
-  if (!email || !password) {
+  if (!email || !password || !fullname) {
     return res.status(400).json({ error: "Please fill all the fields" });
   }
 
@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
   const hashed = await bcrypt.hash(password, salt);
 
   try {
-    const user = await User.create({ email, password: hashed });
+    const user = await User.create({ email, password: hashed, fullname });
     // Creating the JSONWEBTOKEN
     const token = createToken(user._id);
     // Sending the Response

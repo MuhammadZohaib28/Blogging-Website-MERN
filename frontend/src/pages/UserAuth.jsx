@@ -8,6 +8,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { MdEmail } from "react-icons/md";
 import { IoMdPerson } from "react-icons/io";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { loginUser, registerUser } from "../controllers/usersControllers";
 
 const UserAuth = ({ type }) => {
   // Form Data state
@@ -17,10 +18,9 @@ const UserAuth = ({ type }) => {
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let serverRoute = type == "Sign-In" ? "/signin" : "/signup";
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
     let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
 
@@ -55,7 +55,23 @@ const UserAuth = ({ type }) => {
       );
     }
 
-    console.log({Name: fullname, Email: email, Password: password});
+    if (type === "Sign-In") {
+      try {
+        await loginUser(email, password);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    } else {
+      try {
+        await registerUser(
+          formData.email,
+          formData.password,
+          formData.fullname
+        );
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   return (
