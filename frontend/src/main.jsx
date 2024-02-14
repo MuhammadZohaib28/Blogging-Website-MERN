@@ -5,11 +5,14 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import router from "./router/Router";
 import UserProvider from "./context/UserContext";
+import PostProvider from "./context/PostContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
+    <PostProvider>
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
+    </PostProvider>
   </React.StrictMode>
 );

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import InputBox from "../components/InputBox";
 import { FcGoogle } from "react-icons/fc";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageAnimation from "../components/PageAnimation";
 import { Toaster, toast } from "react-hot-toast";
 import { MdEmail } from "react-icons/md";
@@ -18,10 +18,13 @@ const UserAuth = ({ type }) => {
     password: "",
   });
 
-  // Use User Context
-  const { user } = useContext(UserContext);
+  // Use navigate hook
+  const navigate = useNavigate();
 
-  console.log(user);
+  // Use User Context
+  const { setUser } = useContext(UserContext);
+
+  console.log(setUser);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -68,6 +71,10 @@ const UserAuth = ({ type }) => {
       try {
         await loginUser(formData.email, formData.password);
         toast.success("User logged in successfully!");
+        // Update the user state
+        setUser({ email, posts: [] });
+        // Navigate to Dashboard
+        navigate("/dashboard");
       } catch (error) {
         toast.error(error.message);
       }
@@ -79,6 +86,10 @@ const UserAuth = ({ type }) => {
           formData.fullname
         );
         toast.success("User registered successfully!");
+        // Update the user state
+        setUser({ email: formData.email, posts: [] });
+        // Navigate to Dashboard
+        navigate("/dashboard");
       } catch (error) {
         toast.error(error.message);
       }
