@@ -67,6 +67,7 @@ const UserAuth = ({ type }) => {
     if (type === "Sign-In") {
       try {
         await loginUser(formData.email, formData.password);
+        toast.success("User logged in successfully!");
       } catch (error) {
         toast.error(error.message);
       }
@@ -77,6 +78,7 @@ const UserAuth = ({ type }) => {
           formData.password,
           formData.fullname
         );
+        toast.success("User registered successfully!");
       } catch (error) {
         toast.error(error.message);
       }
