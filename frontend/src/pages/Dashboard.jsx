@@ -10,10 +10,11 @@ const Dashboard = () => {
   // USE USER CONTEXT
   const { user, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [expandedPosts, setExpandedPosts] = useState([]);
 
   const handleDelete = async (id) => {
-    console.log(id)
-  }
+    console.log(id);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +30,14 @@ const Dashboard = () => {
 
     fetchData();
   }, [setUser]);
+
+  const toggleExpand = (index) => {
+    setExpandedPosts((prevExpanded) => {
+      const newExpanded = [...prevExpanded];
+      newExpanded[index] = !newExpanded[index];
+      return newExpanded;
+    });
+  };
 
   return (
     <div className="bg-[#e7e7e7] flex flex-col h-full px-20 py-2">
@@ -49,7 +58,7 @@ const Dashboard = () => {
         </div>
       ) : (
         user.posts &&
-        user.posts.map((userPost) => (
+        user.posts.map((userPost, index) => (
           <div className="flex flex-col justify-between my-14">
             <div
               key={userPost._id}
@@ -57,7 +66,23 @@ const Dashboard = () => {
             >
               <h1 className="text-3xl font-gelasio">{userPost.title}</h1>
 
-              <p className="font-inter font-light text-xl">{userPost.body}</p>
+              <p className="font-inter font-light text-xl">
+                {expandedPosts[index] || userPost.body.length <= 800
+                  ? userPost.body
+                  : userPost.body.slice(0, 800) + "... "}
+                {userPost.body.length > 800 && (
+                  <button
+                    className="text-blue-500 hover:underline"
+                    onClick={() => toggleExpand(index)}
+                  >
+                    {expandedPosts[index] ? (
+                      <span className="font-semibold text-black bg-[#e0e0e0] p-2 rounded-full">Read Less</span>
+                    ) : (
+                      <span className="font-semibold text-[#050505] bg-[#e0e0e0] p-2 rounded-full">Read More</span>
+                    )}
+                  </button>
+                )}
+              </p>
             </div>
 
             <div className="flex justify-start w-1/6 gap-10">

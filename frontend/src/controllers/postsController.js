@@ -24,4 +24,27 @@ const geUserPosts = async () => {
   return data;
 };
 
-export { getPosts, geUserPosts };
+/********************************************************* CREATE POSTS *********************************************************/
+const createPost = async (title, body) => {
+  if (!title || !body) {
+    throw Error("Please Enter All Fields");
+  }
+
+  const res = await fetch("/api/posts", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify({ title, body }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw Error(data.error);
+  }
+  return data;
+};
+
+export { getPosts, geUserPosts, createPost };

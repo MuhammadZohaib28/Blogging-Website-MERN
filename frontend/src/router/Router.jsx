@@ -5,6 +5,7 @@ import NotFound from "../components/NotFound.jsx";
 import Home from "../pages/Home.jsx";
 import UserAuth from "../pages/UserAuth.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
+import CreatePost from "../pages/CreatePost.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/create",
+        element: <CreatePost />,
       },
       {
         path: "*",
